@@ -1,33 +1,34 @@
 const path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  entry: './index.js', // Your entry file
   output: {
-    path: path.resolve(__dirname, 'web-build'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/',
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/, // Add ts|tsx to handle TypeScript files
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
         },
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'], // Add TypeScript extensions
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'web-build'),
-    compress: true,
-    port: 9000,
+    extensions: ['.js', '.jsx', '.ts', '.tsx'], // Add extensions for resolving
   },
 };
